@@ -1,15 +1,14 @@
 package router
 
 import (
-	"net/http"
 	"github.com/antyomusa/go-rest-api/configs"
 	userHttp "github.com/antyomusa/go-rest-api/internal/delivery/http"
 	"github.com/antyomusa/go-rest-api/internal/repository"
 	"github.com/antyomusa/go-rest-api/internal/usecases"
+	"github.com/gin-gonic/gin"
 )
 
-func InitRouter() http.Handler {
-	mux := http.NewServeMux()
+func InitRouter(r *gin.Engine){
 
 	db, _ := configs.ConnectDB()
 
@@ -17,7 +16,5 @@ func InitRouter() http.Handler {
 	userService := &usecases.UserService{Repo: userRepo}
 	userHandler := &userHttp.UserHandler{Service: userService}
 
-	mux.HandleFunc("/users", userHandler.GetUsers)
-
-	return mux
+	r.GET("/users", userHandler.GetUsers)
 }

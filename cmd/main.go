@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
 	"github.com/antyomusa/go-rest-api/router"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	fmt.Println("Server is running on port 8080")
 
-	r := router.InitRouter()
+	r := gin.Default()
 
-	http.ListenAndServe(":8080", r)
+	router.InitRouter(r)
+
+	r.Run(":8080")
 }
