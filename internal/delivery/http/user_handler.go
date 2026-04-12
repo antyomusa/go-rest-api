@@ -6,9 +6,16 @@ import (
 	"github.com/antyomusa/go-rest-api/internal/usecases"
 )
 
-func GetUsersHandler(w http.ResponseWriter, r *http.Request){
-	users := usecases.GetUsers()
+type UserHandler struct {
+	Service *usecases.UserService
+}
 
-	w.Header().Set("Content-Type", "application/json")
+func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := h.Service.GetUsers()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
 	json.NewEncoder(w).Encode(users)
 }

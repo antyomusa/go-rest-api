@@ -5,8 +5,10 @@ import (
 	"github.com/antyomusa/go-rest-api/internal/repository"
 )
 
-func GetUsers() []entities.User {
-	users := repository.GetAllUsers()
+type UserService struct {
+	Repo *repository.UserRepository
+}
 
-	return users;
+func (s *UserService) GetUsers() ([]entities.User, error) {
+	return s.Repo.GetAllUsers()
 }
